@@ -79,5 +79,5 @@ if(isset($_SESSION['role'])) {
         </div>
     </div>
 
-
+<?php include('includes/footer.php'); ?>
     
