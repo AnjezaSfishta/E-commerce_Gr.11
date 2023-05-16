@@ -98,11 +98,11 @@
             </div>
             <div class="col-lg-6 offset-lg-1 col-md-6 offset-md-1 col-sm-12 offset-sm-0">
                 <h2>eStore</h2>
-                <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat veritatis perferendis a accusantium nemo eum voluptatibus maxime optio, non blanditiis? Ipsa ab error aliquid dolorum, quasi dolor illo quam corrupti!
+               <p>
+                Mirë se vini në eStore, destinacioni juaj i parë për të gjitha nevojat tuaja të blerjeve online. Ne jemi të përkushtuar në ofrimin e një përvoje blerjesh pa ndërprerje dhe argëtuese, duke sjellë për ju një gamë të gjerë të produkteve, pikërisht në gishtat tuaj.
                 </p>
                 <p class="mt-2">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat earum error molestiae exercitationem velit at corporis porro cumque minus ducimus, quia ex quo consectetur veniam tenetur reiciendis ratione quisquam qui.
+                Në eStore, ne kuptojmë rëndësinë e lehtësisë në botën e sotme të ritmit të shpejtë. Vetëm me disa klikime, ju mund të shfletoni katalogun tonë të gjërë të produkteve dhe të gjeni saktësisht atë që kërkoni. Pavarësisht nëse po kërkoni trendet më të fundit të modës, elektronikën, pajisjet për shtëpinë, ose dhurata unike, ne ju kemi mbuluar.
                 </p>
             </div>
         </div>
