@@ -1,31 +1,49 @@
-<?php 
-    include('includes/header.php'); 
-    
-    if(isset($_GET['action']) && ($_GET['action'] === 'emptycart')) {
-        unset($_SESSION['cart']);
-        header('Location: index.php');
-    }
+<?php
+include('includes/header.php'); 
 
-    if(isset($_GET['action']) && ($_GET['action'] === 'minus')) {
+// Check if the cart cookie is set and update the session cart if necessary
+if (!isset($_SESSION['cart']) && isset($_COOKIE['cart'])) {
+    $_SESSION['cart'] = unserialize($_COOKIE['cart']);
+}
+
+if (isset($_GET['action'])) {
+    if ($_GET['action'] === 'emptycart') {
+        unset($_SESSION['cart']);
+        
+        // Clear the cart cookie
+        setcookie('cart', '', time() - 3600, '/');
+        
+        header('Location: index.php');
+        exit();
+    } elseif ($_GET['action'] === 'minus') {
         $id = $_GET['id'];
         $cart_product = $_SESSION['cart'][$id];
         $cart_product['qty'] = $cart_product['qty'] - 1;
 
-        if($cart_product['qty'] <= 0) {
+        if ($cart_product['qty'] <= 0) {
             unset($_SESSION['cart'][$id]);
         } else {
             $_SESSION['cart'][$id] = $cart_product;
         }
+        
+        // Update the cart cookie
+        setcookie('cart', serialize($_SESSION['cart']), time() + (86400 * 30), '/');
+        
         header('Location: cart.php');
-    }
-
-    if(isset($_GET['action']) && ($_GET['action'] === 'plus')) {
+        exit();
+    } elseif ($_GET['action'] === 'plus') {
         $id = $_GET['id'];
         $cart_product = $_SESSION['cart'][$id];
         $cart_product['qty'] = $cart_product['qty'] + 1;
         $_SESSION['cart'][$id] = $cart_product;
+        
+        // Update the cart cookie
+        setcookie('cart', serialize($_SESSION['cart']), time() + (86400 * 30), '/');
+        
         header('Location: cart.php');
+        exit();
     }
+}
 ?>
 
 <!-- Products -->
@@ -36,7 +54,7 @@
                 <h2>Cart</h2>
                 <p>
                 <?php
-                    if(isset($_SESSION['cart'])) {
+                    if (isset($_SESSION['cart'])) {
                         echo count($_SESSION['cart']) .' products';
                     }
                 ?>
@@ -49,7 +67,7 @@
             </div>
         </div>
         <div class="my-5">
-            <?php if(isset($_SESSION['cart']) && count($_SESSION['cart'])): ?>
+            <?php if (isset($_SESSION['cart']) && count($_SESSION['cart'])): ?>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
@@ -71,20 +89,19 @@
                     </tr>
                     <?php endforeach; ?>
                 </table>
-            </div>
-            <?php else: ?>
-                <p>Cart is empty!</p>
-            <?php endif; ?>
-        </div> <!-- ./div -->
-        <div>
-            <?php if(isset($_SESSION['is_loggedin']) && ($_SESSION['is_loggedin'] == 1)): ?>
-                <a href="checkout.php" class="btn btn-sm btn-outline-primary">Check out</a>
-            <?php else: ?>
-                Please <a href="login.php">login</a> first
-            <?php endif; ?>
         </div>
-    </div>
+<?php else: ?>
+<p>Cart is empty!</p>
+<?php endif; ?>
+</div> <!-- ./div -->
+<div>
+<?php if (isset($_SESSION['is_loggedin']) && ($_SESSION['is_loggedin'] == 1)): ?>
+<a href="checkout.php" class="btn btn-sm btn-outline-primary">Check out</a>
+<?php else: ?>
+Please <a href="login.php">login</a> first
+<?php endif; ?>
+</div>
 </div>
 
-
+</div>
 <?php include('includes/footer.php'); ?>
