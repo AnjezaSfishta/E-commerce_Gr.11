@@ -1,111 +1,111 @@
-<?php 
-    include('includes/header.php');
-?>
 <?php
-    // Connect to database
-    $conn = new mysqli('localhost:3307', 'root', '', 'estore');
+session_start();
 
-    // Check if insert form is submitted
-    if (isset($_POST["submit"]))
-    {
-        // Create table if not already created
-        $sql = "CREATE TABLE IF NOT EXISTS faqs (
-            id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            question TEXT NULL,
-            answer TEXT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )";
-        $statement = $conn->prepare($sql);
-        $statement->execute();
+// Check if the user is logged in
+if (!isset($_SESSION['role'])) {
+  // Redirect to the login page or display an error message
+  header("Location: login.php");
+  exit();
+}
 
-        // Insert in faqs table
-        $sql = "INSERT INTO faqs (question, answer) VALUES (?, ?)";
-        $statement = $conn->prepare($sql);
-        $statement->bind_param("ss", $_POST["question"], $_POST["answer"]);
-        $statement->execute();
+// Connect to the database
+$servername = 'localhost:3306';
+$username = 'root';
+$password = '';
+$dbname = 'onlinestore';
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Check the user's role
+$role = $_SESSION['role'];
+
+if ($role === "customer") {
+  // Display the question form for customers
+  echo "<div class='container'>";
+  echo "<h1 class='text-center'>FAQ Page - Customer</h1>";
+  echo "<div class='row justify-content-center'>";
+  echo "<div class='col-md-6'>";
+  echo "<form action='process_question.php' method='POST'>";
+  echo "<div class='form-group'>";
+  echo "<label for='question'>Ask a Question:</label>";
+  echo "<textarea class='form-control' id='question' name='question' rows='4' cols='50'></textarea>";
+  echo "</div>";
+  echo "<div class='text-center'>";
+  echo "<button type='submit' class='btn btn-primary'>Submit Question</button>";
+  echo "</div>";
+  echo "</form>";
+  echo "</div>";
+  echo "</div>";
+  echo "</div>";
+} elseif ($role === "1") {
+  // Check if an answer has been submitted
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer'])) {
+    // Get the submitted answer and question ID
+    $answer = $_POST['answer'];
+    $questionId = $_POST['question_id'];
+
+    // Update the corresponding question with the answer in the database
+    $sql = "UPDATE questions SET answered = 1, answer = '$answer' WHERE id = $questionId";
+    if ($conn->query($sql) === TRUE) {
+      echo "<div class='container'>";
+      echo "<p class='text-center text-success'>Answer submitted successfully!</p>";
+      echo "</div>";
+    } else {
+      echo "<div class='container'>";
+      echo "<p class='text-center text-danger'>Error updating answer: " . $conn->error . "</p>";
+      echo "</div>";
     }
-    
-    // Query to get all FAQs
-    $sql = "SELECT * FROM faqs ORDER BY id DESC";
-    $statement = $conn->prepare($sql);
-    $statement->execute();
-$result = $statement->get_result();
-$faqs = $result->fetch_all(MYSQLI_ASSOC);
+  }
 
-?>
+  // Retrieve questions and answers from the database
+  $sql = "SELECT * FROM questions";
+  $result = $conn->query($sql);
 
-
-<!-- include bootstrap, font awesome and rich text library CSS -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css" />
-<link rel="stylesheet" type="text/css" href="richtext/richtext.min.css" />
- 
-<!-- include jQuery, bootstrap and rich text JS -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="richtext/jquery.richtext.js"></script>
-
-
-<!-- Layout for form to add FAQ -->
-<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
-    <div class="row">
-        <div class="offset-md-3 col-md-6">
-            <h1 class="text-center">Add FAQ</h1>
-
-            <!-- Form to add FAQ -->
-            <form method="POST" action="FAQ.php">
-
-                <!-- Question -->
-                <div class="form-group">
-                    <label>Enter Question</label>
-                    <input type="text" name="question" class="form-control" required />
-                </div>
-
-                <!-- Answer -->
-                <div class="form-group">
-                    <label>Enter Answer</label>
-                    <textarea name="answer" id="answer" class="form-control" required></textarea>
-                </div>
-
-                <!-- Submit button -->
-                <input type="submit" name="submit" class="btn btn-info" value="Add FAQ" />
-            </form>
-        </div>
-    </div>
-
-    <!-- Show all FAQs added -->
-    <div class="row">
-        <div class="offset-md-2 col-md-8">
-            <table class="table table-bordered">
-                <!-- Table heading -->
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Question</th>
-                        <th>Answer</th>
-                </tr>
-            </thead>
- 
-  <!-- table body -->
-<tbody>
-    <?php if (!empty($faqs)): ?>
-        <?php foreach ($faqs as $faq): ?>
-            <tr>
-                <td><?php echo !empty($faq["id"]) ? $faq["id"] : ""; ?></td>
-                <td><?php echo !empty($faq["question"]) ? $faq["question"] : ""; ?></td>
-                <td><?php echo !empty($faq["answer"]) ? $faq["answer"] : ""; ?></td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr>
-            <td colspan="3">No FAQs found.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
-
-
-        </table>
-    </div>
-</div>
- 
-</div>
+  // Display the questions and answers in a table
+  echo "<div class='container'>";
+  echo "<h1 class='text-center'>FAQ Page - Admin</h1>";
+  echo "<div class='row justify-content-center'>";
+  echo "<div class='col-md-8'>";
+  echo "<form action='faq.php' method='POST'>";
+  echo "<div class='form-group'>";
+  echo "<label for='question_id'>Question ID:</label>";
+  echo "<input type='number' class='form-control' name='question_id'>";
+  echo "</div>";
+  echo "<div class='form-group'>";
+  echo "<label for='answer'>Answer:</label>";
+  echo "<textarea class='form-control' id='answer' name='answer' rows='4' cols='50'></textarea>";
+  echo "</div>";
+  echo "<div class='text-center'>";
+  echo "<button type='submit' class='btn btn-primary'>Submit Answer</button>";
+  echo "</div>";
+  echo "</form>";
+  echo "<br>";
+  // Display the questions and answers in a table
+  if ($result->num_rows > 0) {
+  echo "<table class='table'>";
+  echo "<thead><tr><th>Question ID</th><th>Question</th><th>Answer</th></tr></thead>";
+  echo "<tbody>";
+  while ($row = $result->fetch_assoc()) {
+  echo "<tr>";
+  echo "<td>" . $row['id'] . "</td>";
+  echo "<td>" . $row['question'] . "</td>";
+  echo "<td>" . $row['answer'] . "</td>";
+  echo "</tr>";
+  }
+  echo "</tbody>";
+  echo "</table>";
+  } else {
+  echo "<p class='text-center'>No questions and answers to display.</p>";
+  }
+  echo "</div>";
+  echo "</div>";
+  echo "</div>";
+  }
+  
+  // Close the database connection
+  $conn->close();
+  ?>
