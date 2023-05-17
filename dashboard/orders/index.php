@@ -5,7 +5,7 @@
     $crud = new CRUD;
 
     
-    if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+    if(isset($_SESSION['role']) && $_SESSION['role'] == '1') {
         $orders = $crud->read('orders');
     } else if(isset($_SESSION['role']) && $_SESSION['role'] == 'customer') {
         $orders = $crud->read('orders', ['column' => 'user_id', 'value' => $_SESSION['id']]);
