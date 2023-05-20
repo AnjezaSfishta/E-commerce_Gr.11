@@ -1,15 +1,18 @@
 <?php 
-    include('../includes/header.php'); 
+include('../includes/header.php'); 
 
-    include('../../classes/CRUD.php');
-    $crud = new CRUD;
+include('../../classes/CRUD.php');
+$crud = new CRUD;
 
-    
-    if(isset($_SESSION['role']) && $_SESSION['role'] == '1') {
-        $orders = $crud->read('orders');
-    } else if(isset($_SESSION['role']) && $_SESSION['role'] == 'customer') {
-        $orders = $crud->read('orders', ['column' => 'user_id', 'value' => $_SESSION['id']]);
-    }
+$orders = []; 
+
+if (isset($_SESSION['role']) && $_SESSION['role'] == '1') {
+    $orders = $crud->read('orders');
+} else if (isset($_SESSION['role']) && $_SESSION['role'] == 'customer') {
+    $orders = $crud->read('orders', ['column' => 'user_id', 'value' => $_SESSION['id']]);
+}
+
+$orderCount = is_countable($orders) ? count($orders) : 0;
 ?>
 
 <div class="dashboard my-5">
@@ -17,7 +20,7 @@
         <h3 class="mb-4">Orders</h3>
         <div class="card">
             <div class="card-body">
-                <?php if(count($orders) > 0): ?>
+                <?php if ($orderCount > 0): ?>
                 <div class="table-responsive">
                     <table class="table table-borderd">
                         <tbody>
@@ -28,7 +31,7 @@
                                 <th>Total</th>
                                 <th></th>
                             </tr>
-                            <?php foreach($orders as $order): ?>
+                            <?php foreach ($orders as $order): ?>
                             <tr>
                                 <td><?= $order['id'] ?></td>
                                 <td><?= $order['customer_data'] ?></td>
