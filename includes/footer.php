@@ -1,4 +1,28 @@
 
+<style>
+  html, body {
+    height: 50%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wrapper {
+    min-height: 100%;
+    margin-bottom: -70px; /* Set the height of your footer */
+  }
+
+  .content {
+    padding-bottom: 70px; /* Set the height of your footer */
+  }
+
+  .footer {
+    height: 70px; /* Set the height of your footer */
+  }
+</style>
+
+<div class="wrapper">
+  
+</div>
 
 <footer class="bg-light py-4">
         <div class="container">
