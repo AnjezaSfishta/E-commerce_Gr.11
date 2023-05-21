@@ -36,10 +36,10 @@
                     <table class="table table-bproductd">
                         <tbody>
                             <tr>
-                                <th>#</th>
+                                <th>ID</th>
+                                <th>Product</th>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Qty</th>
                                 <th></th>
                             </tr>
                             <?php foreach($products as $product): ?>
