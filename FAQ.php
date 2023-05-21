@@ -1,5 +1,5 @@
 <?php
-session_start();
+include('includes/header.php'); 
 
 // Check if the user is logged in
 if (!isset($_SESSION['role'])) {
@@ -109,3 +109,5 @@ if ($role === "customer") {
   // Close the database connection
   $conn->close();
   ?>
+  
+<?php include('includes/footer.php'); ?>
