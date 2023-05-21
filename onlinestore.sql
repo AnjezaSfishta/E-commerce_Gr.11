@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3307
--- Generation Time: Mar 16, 2023 at 02:05 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost:3306
+-- Generation Time: May 20, 2023 at 10:18 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,9 +37,33 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`) VALUES
-(2, 'Food'),
-(3, 'Drinks'),
-(4, 'pizza');
+(5, 'Karrige'),
+(6, 'Kufje'),
+(7, 'Monitor'),
+(8, 'Tastierë'),
+(9, 'Laptop'),
+(10, 'Mbajtëse');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `faqs`
+--
+
+CREATE TABLE `faqs` (
+  `id` int(11) NOT NULL,
+  `question` text DEFAULT NULL,
+  `answer` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `faqs`
+--
+
+INSERT INTO `faqs` (`id`, `question`, `answer`, `created_at`) VALUES
+(1, 'Hello', 'hi', '2023-05-16 15:36:24'),
+(2, 'Hello', 'hi', '2023-05-17 01:51:08');
 
 -- --------------------------------------------------------
 
@@ -60,10 +84,14 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `customer_data`, `notes`, `total`) VALUES
-(3, 3, 'Anjeza sfishta<br />121323<br />anjeza.sfishta@gmail.com<br />Ukshin Hoti', 'sadasd', 4),
-(4, 3, 'Anila Luta<br />121323<br />Anila.Luta@gmail.com<br />Ukshin Hoti', '., ,. lkmkl;m', 15),
-(5, 2, 'Anjeza sfishta<br />121323<br />anjeza.sfishta@gmail.com<br />Ukshin Hoti', 'ASAP', 25),
-(6, 2, 'Anjeza sfishta<br />121323<br />anjeza.sfishta@gmail.com<br />Ukshin Hoti', 'asap', 4.11);
+(7, 4, 'Anjeza<br />049891848<br />anjezasfishta@gmail.com<br />Podujeve', 'hello', 1),
+(8, 4, 'Anjeza<br />045894832<br />anjezasfishta@gmail.com<br />hahj', 'jaajja', 11),
+(9, 4, 'Arlind<br />049893828<br />anjezasfishta@gmail.com<br />podujeve', 'hello', 0),
+(10, 4, 'Anjeza<br />049043945<br />anjezasfishta@gmail.com<br />hxbcnjkm', 'nmz,xc', 2.74),
+(11, 4, 'Anjeza<br />049891848<br />anjezasfishta@gmail.com<br />Podujeve', 'hello', 1),
+(12, 5, 'Blerona Jashanica<br />0456736281<br />blerona12@gmail.com<br />hello', 'hi', 1),
+(13, 5, 'Blerona Jashanica<br />0456736281<br />blerona12@gmail.com<br />hello', 'hi', 0),
+(14, 4, 'nmm<br />nm<br />nm@hj<br />nkm', '', 1);
 
 -- --------------------------------------------------------
 
@@ -81,27 +109,18 @@ CREATE TABLE `order_product` (
 --
 
 INSERT INTO `order_product` (`order_id`, `products_id`) VALUES
-(NULL, 13),
-(3, 14),
-(4, 15),
-(5, 15),
-(6, 11);
-
--- --------------------------------------------------------
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `onlinestore`
---
+(NULL, NULL),
+(NULL, NULL),
+(NULL, NULL),
+(NULL, NULL),
+(NULL, NULL),
+(7, NULL),
+(8, NULL),
+(8, NULL),
+(10, NULL),
+(11, NULL),
+(12, NULL),
+(14, NULL);
 
 -- --------------------------------------------------------
 
@@ -126,43 +145,22 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `user_id`, `name`, `price`, `qty`, `discount`, `description`, `image`, `category_id`) VALUES
-(11, 1, 'Karrige', 99.9, 10, 0, 'Karrige Sense7', '1684243735karrige sense7.jpg', 3),
-(12, 1, 'Kufje', 89.5, 10, 10, 'Kufje HyperX Cloud II, të zeza të hirta', '1684247600Kufje HyperX Cloud II, të zeza hirta 89.50 euro.jpg', 4),
-(13, 1, 'Dëgjuese Canyon TWS-1', 78.5, 5, 2, 'Dëgjuese Canyon TWS-1, të zeza ', '1684247640Dëgjuese Canyon TWS-1, të zeza 22.504.jpg', 4),
-(14, 1, 'Monitor Acer Nitro, i zi', 99, 12, 10, 'Monitor Acer Nitro, i zi', '1684247666Monitor Acer Nitro ,i zi 639.50.jpg', 4),
-(15, 1, 'Tastierë SteelSeries Apex 3 TKL, US', 120.35, 7, 20, 'Tastierë SteelSeries Apex 3, TKL, US', '1684244752Tastierë SteelSeries Apex 3 TKL, US, e zezë.jpg', 4),
-(16, 1, 'Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad', 67, 3, 0, 'Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad', '1684247707Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad, e hirtë 67 euro.jpg', 4),
-(17, 1, 'Laptop Victus by HP ', 98, 2, -1, 'Laptop Victus by HP 816.50', '1684245088Laptop Victus by HP 816.50.jpg', 2),
-(18, 1, 'Monitor Samsung Odyssey', 135.55, 1, 2, 'Monitor Samsung Odyssey G32AFull HD', '1684247735Monitor Samsung Odyssey G32AFull HD 169.50.jpg', 4),
-(19, 1, 'Laptop Dell G15', 1578, 6, 3, 'Laptop Dell G15 (5525), AMD Ryzen', '1684247768Laptop Dell G15 (5525), AMD Ryzen 7 1,578 euro.jpg', 2),
-(20, 1, 'Laptop Lenovo Legion 5 ', 1461.99, 3, 4, 'Laptop Lenovo Legion 5 17ACH6H, 17.3', '1684247788Laptop Lenovo Legion 5 17ACH6H, 17.3 1,461 euro.jpg', 2),
-(21, 1, 'Karrige SENSE7 Spellcaster, e zezë', 325, 1, 11, 'Karrige SENSE7 Spellcaster, e zezë', '1684247813Karrige SENSE7 Spellcaster, e zezë.jpg', 3),
-(22, 1, 'Karrige DXRacer Formula, e zezë', 421.3, 3, 5, 'Karrige DXRacer Formula, e zezë gjelbër', '1684246952Karrige DXRacer Formula , e zezë gjelbërt.jpg', 3);
+(11, 4, 'Karrige', 99.9, 10, 0, 'Karrige Sense7', '1684243735karrige sense7.jpg', 5),
+(12, 4, 'Kufje', 89.5, 10, 10, 'Kufje HyperX Cloud II, të zeza të hirta', '1684247600Kufje HyperX Cloud II, të zeza hirta 89.50 euro.jpg', 6),
+(13, 4, 'Dëgjuese Canyon TWS-1', 78.5, 5, 2, 'Dëgjuese Canyon TWS-1, të zeza ', '1684247640Dëgjuese Canyon TWS-1, të zeza 22.504.jpg', 6),
+(14, 4, 'Monitor Acer Nitro, i zi', 99, 12, 10, 'Monitor Acer Nitro, i zi', '1684247666Monitor Acer Nitro ,i zi 639.50.jpg', 7),
+(15, 4, 'Tastierë SteelSeries Apex 3 TKL, US', 120.35, 7, 20, 'Tastierë SteelSeries Apex 3, TKL, US', '1684244752Tastierë SteelSeries Apex 3 TKL, US, e zezë.jpg', 8),
+(16, 4, 'Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad', 67, 3, 0, 'Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad', '1684247707Mbajtëse Satechi Dual Vertical për MacBook Pro dhe iPad, e hirtë 67 euro.jpg', 10),
+(17, 4, 'Laptop Victus by HP ', 98, 2, -1, 'Laptop Victus by HP 816.50', '1684245088Laptop Victus by HP 816.50.jpg', 9),
+(18, 4, 'Monitor Samsung Odyssey', 135.55, 1, 2, 'Monitor Samsung Odyssey G32AFull HD', '1684247735Monitor Samsung Odyssey G32AFull HD 169.50.jpg', 7),
+(19, 4, 'Laptop Dell G15', 1578, 6, 3, 'Laptop Dell G15 (5525), AMD Ryzen', '1684247768Laptop Dell G15 (5525), AMD Ryzen 7 1,578 euro.jpg', 9),
+(20, 4, 'Laptop Lenovo Legion 5 ', 1461.99, 3, 4, 'Laptop Lenovo Legion 5 17ACH6H, 17.3', '1684247788Laptop Lenovo Legion 5 17ACH6H, 17.3 1,461 euro.jpg', 9),
+(21, 4, 'Karrige SENSE7 Spellcaster, e zezë', 325, 1, 11, 'Karrige SENSE7 Spellcaster, e zezë', '1684247813Karrige SENSE7 Spellcaster, e zezë.jpg', 5),
+(22, 4, 'Karrige DXRacer Formula, e zezë', 421.3, 3, 5, 'Karrige DXRacer Formula, e zezë gjelbër', '1684246952Karrige DXRacer Formula , e zezë gjelbërt.jpg', 5);
+
+-- --------------------------------------------------------
 
 --
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_products_user_idx` (`user_id`),
-  ADD KEY `fk_products_categories_idx` (`category_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
-ALTER TABLE `products`
-  ADD CONSTRAINT `fk_products_categories` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `fk_products_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
-COMMIT;
-
-
 -- Table structure for table `promotions`
 --
 
@@ -179,9 +177,37 @@ CREATE TABLE `promotions` (
 --
 
 INSERT INTO `promotions` (`id`, `title`, `subtitle`, `is_active`, `image`) VALUES
-(4, 'Samsung HQ TV', 'Bota reale ne ekranin tuaj', 1, '1678837242TV.jpg'),
-(6, 'ASUS Rog Strike 500', 'Best gaming laptop of 2023', 1, '16788381951678131699mb_d-KS-1678094748.jpg'),
-(7, 'Karrige per gamera', 'Karrige komode nga brendi i ASUS', 0, '16788383571678131832mb-d-1677936208.jpg');
+(22, 'Samusung HQ TV', 'Bota reale ne ekranin tuaj', 0, '16843540031678837242TV.jpg'),
+(23, 'Karrike per gamera', 'Karrige komode nga brendi i ASUS', 1, '168435401716788383571678131832mb-d-1677936208.jpg'),
+(26, 'ASUS ROG Strike 500', 'Best gaming laptop of 2023', 0, '168435663516788381951678131699mb_d-KS-1678094748.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL,
+  `question` text DEFAULT NULL,
+  `answered` tinyint(4) DEFAULT 0,
+  `answer` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`id`, `question`, `answered`, `answer`) VALUES
+(1, 'Hello how are you ', 1, 'Hello good '),
+(2, 'hellp', 1, 'hi good '),
+(3, 'hello how are you ', 1, 'good'),
+(4, 'Hej si po kaloni ', 1, 'Mire'),
+(5, 'How can I order', 1, 'You can order when you select products'),
+(6, 'How can i see what i order?', 0, NULL),
+(7, 'Can i have 2 or 3 products in my cart?', 0, NULL),
+(8, 'How to  return products ', 0, NULL),
+(9, 'Can i see product?', 1, 'Yes');
 
 -- --------------------------------------------------------
 
@@ -206,9 +232,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `address`, `phone`, `avatar`, `role`) VALUES
-(1, 'Arlind', 'Nimani', 'arlind.nimani@gmail.com', 'a.n8', '123456', '045267671', 'avatar.png', '1'),
-(2, 'Anjeza', 'sfishta', 'anjeza.sfishta@gmail.com', '$2y$10$pwLvO8W9U92JTtNuZxIc2uNN.DeF9AKPcy33iAw76oQYyX4YKne7q', NULL, NULL, 'avatar.png', 'customer'),
-(3, 'Anila', 'Luta', 'Anila.Luta@gmail.com', '$2y$10$jidJg60wEivVN/CusgxebOxxuYLncDasXEC2Fd6KTnwDCwEw052ZG', 'Ukshin Hoti 10000', '045545454', '1678971298images.jpg', ' customer');
+(4, 'Anjeza', '', 'anjezasfishta@gmail.com', '$2y$10$DadOiKHD3GayZPg/CYOByuFI5UDcKyCglHCoZVt8oWDdbXdT9q1Ay', NULL, NULL, 'avatar.png', '1'),
+(5, 'Blerona', 'Jashanica', 'blerona12@gmail.com', '$2y$10$fdbr6isntytVhE50nCrwbu/L.ViCm2Lmt/Nfjb3QS/rkYN5BPRNom', NULL, NULL, 'avatar.png', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -218,6 +243,12 @@ INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `address`, `p
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `faqs`
+--
+ALTER TABLE `faqs`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -249,6 +280,12 @@ ALTER TABLE `promotions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -262,31 +299,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `faqs`
+--
+ALTER TABLE `faqs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -316,10 +365,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-CREATE TABLE questions (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  question TEXT,
-  answered TINYINT DEFAULT 0,
-  answer TEXT
-);
